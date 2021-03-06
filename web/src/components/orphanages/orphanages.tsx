@@ -20,13 +20,24 @@ function OrphanagesMap () {
 
     const [orphanages, SetOrphanages] = useState<Orphanage[]>([]);
 
+    const [messageError, setMessageError] = useState<string>('');
+
     console.log(orphanages);
 
+    const loadData = async () => {
+        try {
+            const response = await api.get('orphanages');
+            SetOrphanages(response.data);      
+        } catch (error) {
+            console.log(JSON.stringify(error, null, 2));
+            setMessageError('Ocorreu um erro');
+        }
+    }
+
     useEffect(() => {
-        api.get('orphanages').then(response => {
-            SetOrphanages(response.data);
-        });
+        loadData();
     }, []);
+
 
     return(
         <div id="page-map">
@@ -43,6 +54,8 @@ function OrphanagesMap () {
                     <span>São Paulo</span>
                 </footer>
             </aside>
+
+            {!!messageError && <p style={{color: 'red'}}>{messageError}</p>}
             
 
             <MapContainer  //MapContainer é uma 'classe' para que possamos definir mapas dentro de uma aplicação
