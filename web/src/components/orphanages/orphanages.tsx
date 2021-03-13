@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {FiPlus, FiArrowRight} from 'react-icons/fi';
-import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup} from 'react-leaflet';
 
 import MarkerImg from '../../img/local.svg'; //Esse é o icone que queremos por no mapa
 import './orphanages.css';
@@ -45,7 +45,7 @@ function OrphanagesMap () {
             </aside>
             
 
-            <MapContainer  //MapContainer é uma 'classe' para que possamos definir mapas dentro de uma aplicação
+            <Map //MapContainer é uma 'classe' para que possamos definir mapas dentro de uma aplicação
 
                 center={[-23.5361908,-46.3522796]} //posição central do mapa
                 zoom={15} //zoom do mapa
@@ -70,7 +70,7 @@ function OrphanagesMap () {
                     )
                 })}
 
-            </MapContainer>
+            </Map>
 
             <Link to="/orphanages/create" className="create-orphanage">
                 <FiPlus size={32} color="#ffffff" />

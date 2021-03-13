@@ -1,5 +1,6 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker} from 'react-leaflet';
+import React, {useState} from "react";
+import { Map, TileLayer, Marker} from 'react-leaflet';
+import {LeafletMouseEvent} from 'leaflet';
 
 import './createorphanage.css';
 import { FiPlus } from "react-icons/fi";
@@ -8,7 +9,16 @@ import Sidebar from "../sidebar/sidebar";
 import mapIcon from '../../utils/mapIcon';
 
 export default function OrphanagesMap() {
+    const [position, setPosition] = useState({ latitude: 0, longitude: 0})
 
+    function handleMapClick(event: LeafletMouseEvent){
+      const {lat, lng} = event.latlng;
+
+      setPosition({
+        latitude: lat,
+        longitude: lng,
+      });
+    };
     return (
     <div id="page-create-orphanage">
 
@@ -19,13 +29,22 @@ export default function OrphanagesMap() {
           <fieldset>
             <legend>Dados</legend>
 
-            <MapContainer center={[-23.5361908,-46.3522796]} style={{ width: '100%', height: 280 }} zoom={15}>
+            <Map
+              center={[-23.5361908,-46.3522796]}
+              style={{ width: '100%', height: 280 }} 
+              zoom={15}
+              onClick={handleMapClick}
+            >
 
-              <Marker interactive={false} icon={mapIcon} position={[-23.5361908,-46.3522796]} />
+              
+
+              {position.latitude !== 0 ? 
+              <Marker interactive={false} icon={mapIcon} position={[position.latitude,position.longitude]}/> 
+              : null }
 
               <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png" /> 
 
-            </MapContainer>
+            </Map>
 
             <div className="input-block">
               <label htmlFor="name">Nome</label>
